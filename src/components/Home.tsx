@@ -1,4 +1,4 @@
-import { Box, Container, Typography } from "@mui/material";
+import { Box, Container, Paper, Typography } from "@mui/material";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { LocalSession, Session } from "../models/session";
@@ -7,6 +7,7 @@ import { IRootState } from "../store";
 import { create } from "../store/slices/session";
 import JoinSession from "./session/JoinSession";
 import StartNewSession from "./session/StartNewSession";
+import VotingPanel from "./voting/VotingPanel";
 
 const Home: React.FC = () => {
   const dispatch = useDispatch();
@@ -34,19 +35,31 @@ const Home: React.FC = () => {
 
   return (
     <Container sx={{ mt: 3 }}>
-      {Object.keys(session).includes("sessionId") ? (
-        <JoinSession></JoinSession>
-      ) : (
+      {Object.keys(session).includes("userName") ? (
         <>
-          <h1>Let's start scrumbling!</h1>
-          <Typography variant="subtitle2">
-            Estimate scrumbles or stories like a pro team
-          </Typography>
-          <StartNewSession />
           <Box sx={{ mt: 3 }}>
-            <JoinSession></JoinSession>
+            <VotingPanel></VotingPanel>
           </Box>
+
+         
         </>
+      ) : (
+        <Paper variant="outlined">
+          {Object.keys(session).includes("sessionId") ? (
+            <JoinSession></JoinSession>
+          ) : (
+            <>
+              <h1>Let's start scrumbling!</h1>
+              <Typography variant="subtitle2">
+                Estimate scrumbles or stories like a pro team
+              </Typography>
+              <StartNewSession />
+              <Box sx={{ mt: 3 }}>
+                <JoinSession></JoinSession>
+              </Box>
+            </>
+          )}
+        </Paper>
       )}
     </Container>
   );

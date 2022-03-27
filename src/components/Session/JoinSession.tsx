@@ -1,15 +1,14 @@
-import { Button, Paper, TextField, Typography } from "@mui/material";
+import { Button, TextField, Typography } from "@mui/material";
 import React, { FormEvent, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import useSignalR from "../../hooks/useSignalR";
 import useSignalRConfig from "../../hooks/useSignalRConfig";
-import { LocalSession } from "../../models/session";
 import { updateParticipants } from "../../services/api/session";
 import { IRootState } from "../../store";
-import { reset} from "../../store/slices/session";
+import { reset } from "../../store/slices/session";
 import { setFormData, validate } from "../../store/slices/session-form";
 
-const JoinSession: React.FC<JoinSessionProps> = () => {
+const JoinSession: React.FC = () => {
   const dispatch = useDispatch();
   const session = useSelector((state: IRootState) => state.sessionData);
   const sessionFormData = useSelector((state: IRootState) => state.sessionForm);
@@ -109,7 +108,7 @@ const JoinSession: React.FC<JoinSessionProps> = () => {
     );
   };
   return (
-    <Paper variant="outlined" sx={{ pl: 1, pb: 1 }}>
+    <>
       {getTypography()}
       <form onSubmit={handleSubmit}>
         {!sessionId && (
@@ -142,12 +141,8 @@ const JoinSession: React.FC<JoinSessionProps> = () => {
           </Button>
         )}
       </form>
-    </Paper>
+    </>
   );
 };
-
-export interface JoinSessionProps {
-  session?: LocalSession;
-}
 
 export default JoinSession;
