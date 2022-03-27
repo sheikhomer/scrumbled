@@ -1,10 +1,10 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import sessionSlice from "./slices/session";
-import uiSlice from "./slices/ui";
+import sessionFormSlice from "./slices/session-form";
 
 const rootReducers = combineReducers({
   sessionData: sessionSlice.reducer,
-  uiState: uiSlice.reducer
+  sessionForm: sessionFormSlice.reducer
 });
 
 export const store = configureStore({

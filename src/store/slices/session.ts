@@ -1,14 +1,21 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { Session } from "../../models/session";
+import { LocalSession } from "../../models/session";
+import { Action } from "./type";
 
-const initialSession: Session = {};
+const initialSession: Partial<LocalSession> = {};
 const sessionSlice = createSlice({
   name: "session",
   initialState: initialSession,
   reducers: {
-    create: (state, data: Action) => {
+    create: (state, data: Action<LocalSession>) => {
       state.sessionId = data.payload.sessionId;
       state.participants = data.payload.participants;
+      state.userId = data.payload.userId;
+    },
+    update:(state, data: Action<LocalSession>) => {
+      state.participants = data.payload.participants;
+      state.userId = data.payload.userId;
+      state.userName = data.payload.userName;
     },
     reset: (state) => {
       state.sessionId = initialSession.sessionId;
@@ -17,10 +24,7 @@ const sessionSlice = createSlice({
   },
 });
 
-interface Action {
-  payload: Session;
-  type: string;
-}
 
-export const { create, reset } = sessionSlice.actions;
+
+export const { create, reset, update } = sessionSlice.actions;
 export default sessionSlice;

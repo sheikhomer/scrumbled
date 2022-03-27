@@ -1,17 +1,19 @@
 import { Button } from "@mui/material";
 import { useDispatch } from "react-redux";
-import { Session } from "../../models/session";
+import { LocalSession, Session } from "../../models/session";
+import { createSession } from "../../services/api/session";
 import { create } from "../../store/slices/session";
 
 const StartNewSession: React.FC = () => {
   const dispatch = useDispatch();
   const handleNewSessionClick = async () => {
-    const response = await fetch("http://localhost:5179/session", {
-      method: "POST",
-    });
-    const createdSession: Session = await response.json();
-    sessionStorage.setItem("sessionId", createdSession.sessionId!);
-    dispatch(create(createdSession));
+    const createdSession: Session = await createSession();
+    const localSession: LocalSession = {
+      ...createdSession,
+      userId: createdSession.participants[0].userId,
+    };
+    localStorage.setItem("sessionData", JSON.stringify(localSession));
+    dispatch(create(localSession));
   };
 
   return (
